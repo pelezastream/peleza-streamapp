@@ -1,0 +1,74 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.pelezastream.app'
+    compileSdk 36
+
+    defaultConfig {
+        applicationId 'com.pelezastream.app'
+        minSdk 24
+        targetSdk 36
+        versionCode 110
+        versionName '1.1.0'
+
+        buildConfigField 'String', 'HOME_URL', '"https://www.pelezastream.com/"'
+        buildConfigField 'String', 'PRIMARY_HOST', '"www.pelezastream.com"'
+        buildConfigField 'String', 'APEX_HOST', '"pelezastream.com"'
+    }
+
+    def keystorePath = System.getenv('ANDROID_KEYSTORE_PATH')
+    def keystorePassword = System.getenv('ANDROID_KEYSTORE_PASSWORD')
+    def keyAliasValue = System.getenv('ANDROID_KEY_ALIAS')
+    def keyPasswordValue = System.getenv('ANDROID_KEY_PASSWORD')
+    def hasSigning = keystorePath && keystorePassword && keyAliasValue && keyPasswordValue && file(keystorePath).exists()
+
+    signingConfigs {
+        release {
+            if (hasSigning) {
+                storeFile file(keystorePath)
+                storePassword keystorePassword
+                keyAlias keyAliasValue
+                keyPassword keyPasswordValue
+            }
+        }
+    }
+
+    buildTypes {
+        debug {
+            applicationIdSuffix '.debug'
+            versionNameSuffix '-debug'
+            debuggable true
+        }
+        release {
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            if (hasSigning) {
+                signingConfig signingConfigs.release
+            }
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    buildFeatures {
+        buildConfig true
+    }
+
+    lint {
+        abortOnError true
+        checkReleaseBuilds true
+        warningsAsErrors false
+    }
+
+    packaging {
+        resources {
+            excludes += ['/META-INF/{AL2.0,LGPL2.1}']
+        }
+    }
+}
