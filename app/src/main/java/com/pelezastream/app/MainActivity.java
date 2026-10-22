@@ -28,6 +28,10 @@ import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+import android.widget.HorizontalScrollView;
+import android.widget.LinearLayout;
+import android.widget.EditText;
+import android.app.AlertDialog;
 
 import java.util.Locale;
 
@@ -54,11 +58,38 @@ public class MainActivity extends Activity {
 
         configureWebView();
         configureBackNavigation();
+        configureBottomNavigation();
 
         if (savedInstanceState != null) {
             webView.restoreState(savedInstanceState);
         } else {
             loadIntentOrHome(getIntent());
+        }
+    }
+
+    private void configureBottomNavigation() {
+        HorizontalScrollView bar = findViewById(R.id.bottom_bar);
+        LinearLayout children = (LinearLayout) bar.getChildAt(0);
+        for (int k = 0; k < children.getChildCount(); k++) {
+            View button = children.getChildAt(k);
+            String destination = String.valueOf(button.getTag());
+            button.setOnClickListener(clicked -> {
+                if ("#refresh".equals(destination)) {
+                    webView.reload();
+                } else if ("#search".equals(destination)) {
+                    EditText field = new EditText(this);
+                    field.setSingleLine(true);
+                    field.setHint("Search PELEZA UPDATES");
+                    new AlertDialog.Builder(this).setTitle("Search Articles").setView(field)
+                        .setNegativeButton("Cancel", null)
+                        .setPositiveButton("Search", (dialog, which) -> {
+                            String term = field.getText().toString().trim();
+                            if (!term.isEmpty()) webView.loadUrl(BuildConfig.HOME_URL + "?s=" + Uri.encode(term));
+                        }).show();
+                } else {
+                    webView.loadUrl(BuildConfig.HOME_URL + destination);
+                }
+            });
         }
     }
 
