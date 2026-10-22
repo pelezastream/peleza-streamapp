@@ -1,67 +1,230 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/root" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:background="@color/peleza_black">
-    <WebView android:id="@+id/web_view" android:layout_width="match_parent"
-        android:layout_height="match_parent" android:layout_marginBottom="58dp"/>
-    <ProgressBar android:id="@+id/progress" style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="match_parent" android:layout_height="3dp" android:layout_gravity="top"
-        android:max="100" android:progressTint="@color/peleza_red" android:visibility="gone"/>
-    <HorizontalScrollView android:id="@+id/bottom_bar" android:layout_width="match_parent"
-        android:layout_height="58dp" android:layout_gravity="bottom"
-        android:fillViewport="true" android:background="@color/peleza_black"
-        android:scrollbars="none">
-      <LinearLayout android:layout_width="wrap_content" android:layout_height="match_parent"
-          android:orientation="horizontal" android:gravity="center_vertical"
-          android:paddingStart="5dp" android:paddingEnd="5dp">
-        <Button android:layout_width="wrap_content" android:layout_height="48dp"
-            android:layout_marginEnd="4dp" android:minWidth="0dp" android:minHeight="0dp"
-            android:paddingStart="12dp" android:paddingEnd="12dp" android:tag=""
-            android:text="Home" android:textAllCaps="false" android:textSize="12sp"
-            android:textColor="#FFFFFF" android:backgroundTint="@color/peleza_red"/>
-        <Button android:layout_width="wrap_content" android:layout_height="48dp"
-            android:layout_marginEnd="4dp" android:minWidth="0dp" android:minHeight="0dp"
-            android:paddingStart="12dp" android:paddingEnd="12dp" android:tag="jobs/"
-            android:text="Jobs" android:textAllCaps="false" android:textSize="12sp"
-            android:textColor="#FFFFFF" android:backgroundTint="@color/peleza_red"/>
-        <Button android:layout_width="wrap_content" android:layout_height="48dp"
-            android:layout_marginEnd="4dp" android:minWidth="0dp" android:minHeight="0dp"
-            android:paddingStart="12dp" android:paddingEnd="12dp" android:tag="category/news/"
-            android:text="News" android:textAllCaps="false" android:textSize="12sp"
-            android:textColor="#FFFFFF" android:backgroundTint="@color/peleza_red"/>
-        <Button android:layout_width="wrap_content" android:layout_height="48dp"
-            android:layout_marginEnd="4dp" android:minWidth="0dp" android:minHeight="0dp"
-            android:paddingStart="12dp" android:paddingEnd="12dp" android:tag="category/education/"
-            android:text="Education" android:textAllCaps="false" android:textSize="12sp"
-            android:textColor="#FFFFFF" android:backgroundTint="@color/peleza_red"/>
-        <Button android:layout_width="wrap_content" android:layout_height="48dp"
-            android:layout_marginEnd="4dp" android:minWidth="0dp" android:minHeight="0dp"
-            android:paddingStart="12dp" android:paddingEnd="12dp" android:tag="category/opportunities/"
-            android:text="Opportunities" android:textAllCaps="false" android:textSize="12sp"
-            android:textColor="#FFFFFF" android:backgroundTint="@color/peleza_red"/>
-        <Button android:layout_width="wrap_content" android:layout_height="48dp"
-            android:layout_marginEnd="4dp" android:minWidth="0dp" android:minHeight="0dp"
-            android:paddingStart="12dp" android:paddingEnd="12dp" android:tag="category/entertainment/"
-            android:text="Entertainment" android:textAllCaps="false" android:textSize="12sp"
-            android:textColor="#FFFFFF" android:backgroundTint="@color/peleza_red"/>
-        <Button android:layout_width="wrap_content" android:layout_height="48dp"
-            android:layout_marginEnd="4dp" android:minWidth="0dp" android:minHeight="0dp"
-            android:paddingStart="12dp" android:paddingEnd="12dp" android:tag="category/community/"
-            android:text="Community" android:textAllCaps="false" android:textSize="12sp"
-            android:textColor="#FFFFFF" android:backgroundTint="@color/peleza_red"/>
-        <Button android:layout_width="wrap_content" android:layout_height="48dp"
-            android:layout_marginEnd="4dp" android:minWidth="0dp" android:minHeight="0dp"
-            android:paddingStart="12dp" android:paddingEnd="12dp" android:tag="#search"
-            android:text="Search" android:textAllCaps="false" android:textSize="12sp"
-            android:textColor="#FFFFFF" android:backgroundTint="@color/peleza_red"/>
-        <Button android:layout_width="wrap_content" android:layout_height="48dp"
-            android:layout_marginEnd="4dp" android:minWidth="0dp" android:minHeight="0dp"
-            android:paddingStart="12dp" android:paddingEnd="12dp" android:tag="#refresh"
-            android:text="Refresh" android:textAllCaps="false" android:textSize="12sp"
-            android:textColor="#FFFFFF" android:backgroundTint="@color/peleza_red"/>
-      </LinearLayout>
-    </HorizontalScrollView>
-    <FrameLayout android:id="@+id/fullscreen_container" android:layout_width="match_parent"
-        android:layout_height="match_parent" android:background="@android:color/black"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/peleza_black">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <WebView
+            android:id="@+id/web_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#2D4157"/>
+
+        <LinearLayout
+            android:id="@+id/bottom_bar"
+            android:layout_width="match_parent"
+            android:layout_height="76dp"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@color/peleza_black"
+            android:elevation="8dp">
+
+        <LinearLayout
+            android:id="@+id/nav_home"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="Home"
+            android:paddingStart="2dp"
+            android:paddingEnd="2dp">
+            <ImageView
+                android:id="@+id/nav_icon_home"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_nav_home"
+                android:importantForAccessibility="no"/>
+            <TextView
+                android:id="@+id/nav_label_home"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="4dp"
+                android:text="Home"
+                android:textSize="11sp"
+                android:fontFamily="sans"
+                android:textColor="@color/peleza_muted"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:importantForAccessibility="no"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/nav_news"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="News"
+            android:paddingStart="2dp"
+            android:paddingEnd="2dp">
+            <ImageView
+                android:id="@+id/nav_icon_news"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_nav_news"
+                android:importantForAccessibility="no"/>
+            <TextView
+                android:id="@+id/nav_label_news"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="4dp"
+                android:text="News"
+                android:textSize="11sp"
+                android:fontFamily="sans"
+                android:textColor="@color/peleza_muted"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:importantForAccessibility="no"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/nav_jobs"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="Jobs"
+            android:paddingStart="2dp"
+            android:paddingEnd="2dp">
+            <ImageView
+                android:id="@+id/nav_icon_jobs"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_nav_jobs"
+                android:importantForAccessibility="no"/>
+            <TextView
+                android:id="@+id/nav_label_jobs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="4dp"
+                android:text="Jobs"
+                android:textSize="11sp"
+                android:fontFamily="sans"
+                android:textColor="@color/peleza_muted"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:importantForAccessibility="no"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/nav_education"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="Education"
+            android:paddingStart="2dp"
+            android:paddingEnd="2dp">
+            <ImageView
+                android:id="@+id/nav_icon_education"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_nav_education"
+                android:importantForAccessibility="no"/>
+            <TextView
+                android:id="@+id/nav_label_education"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="4dp"
+                android:text="Education"
+                android:textSize="11sp"
+                android:fontFamily="sans"
+                android:textColor="@color/peleza_muted"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:importantForAccessibility="no"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/nav_more"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="More"
+            android:paddingStart="2dp"
+            android:paddingEnd="2dp">
+            <ImageView
+                android:id="@+id/nav_icon_more"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_nav_more"
+                android:importantForAccessibility="no"/>
+            <TextView
+                android:id="@+id/nav_label_more"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="4dp"
+                android:text="More"
+                android:textSize="11sp"
+                android:fontFamily="sans"
+                android:textColor="@color/peleza_muted"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:importantForAccessibility="no"/>
+        </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_gravity="top"
+        android:max="100"
+        android:progressTint="@color/peleza_red"
+        android:visibility="gone"/>
+
+    <FrameLayout
+        android:id="@+id/fullscreen_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/black"
         android:visibility="gone"/>
 </FrameLayout>
