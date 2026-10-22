@@ -10,7 +10,7 @@
     <HorizontalScrollView android:id="@+id/bottom_bar" android:layout_width="match_parent"
         android:layout_height="58dp" android:layout_gravity="bottom"
         android:fillViewport="true" android:background="@color/peleza_black"
-        android:horizontalScrollBarEnabled="false">
+        android:scrollbars="none">
       <LinearLayout android:layout_width="wrap_content" android:layout_height="match_parent"
           android:orientation="horizontal" android:gravity="center_vertical"
           android:paddingStart="5dp" android:paddingEnd="5dp">
