@@ -1,29 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/root"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/peleza_black">
-
-    <WebView
-        android:id="@+id/web_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <ProgressBar
-        android:id="@+id/progress"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:layout_gravity="top"
-        android:max="100"
-        android:progressTint="@color/peleza_red"
-        android:visibility="gone" />
-
-    <FrameLayout
-        android:id="@+id/fullscreen_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/black"
-        android:visibility="gone" />
+    android:id="@+id/root" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:background="@color/peleza_black">
+    <WebView android:id="@+id/web_view" android:layout_width="match_parent"
+        android:layout_height="match_parent" android:layout_marginBottom="58dp"/>
+    <ProgressBar android:id="@+id/progress" style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent" android:layout_height="3dp" android:layout_gravity="top"
+        android:max="100" android:progressTint="@color/peleza_red" android:visibility="gone"/>
+    <HorizontalScrollView android:id="@+id/bottom_bar" android:layout_width="match_parent"
+        android:layout_height="58dp" android:layout_gravity="bottom"
+        android:fillViewport="true" android:background="@color/peleza_black"
+        android:horizontalScrollBarEnabled="false">
+      <LinearLayout android:layout_width="wrap_content" android:layout_height="match_parent"
+          android:orientation="horizontal" android:gravity="center_vertical"
+          android:paddingStart="5dp" android:paddingEnd="5dp">
+        <Button android:layout_width="wrap_content" android:layout_height="48dp"
+            android:layout_marginEnd="4dp" android:minWidth="0dp" android:minHeight="0dp"
+            android:paddingStart="12dp" android:paddingEnd="12dp" android:tag=""
+            android:text="Home" android:textAllCaps="false" android:textSize="12sp"
+            android:textColor="#FFFFFF" android:backgroundTint="@color/peleza_red"/>
+        <Button android:layout_width="wrap_content" android:layout_height="48dp"
+            android:layout_marginEnd="4dp" android:minWidth="0dp" android:minHeight="0dp"
+            android:paddingStart="12dp" android:paddingEnd="12dp" android:tag="jobs/"
+            android:text="Jobs" android:textAllCaps="false" android:textSize="12sp"
+            android:textColor="#FFFFFF" android:backgroundTint="@color/peleza_red"/>
+        <Button android:layout_width="wrap_content" android:layout_height="48dp"
+            android:layout_marginEnd="4dp" android:minWidth="0dp" android:minHeight="0dp"
+            android:paddingStart="12dp" android:paddingEnd="12dp" android:tag="category/news/"
+            android:text="News" android:textAllCaps="false" android:textSize="12sp"
+            android:textColor="#FFFFFF" android:backgroundTint="@color/peleza_red"/>
+        <Button android:layout_width="wrap_content" android:layout_height="48dp"
+            android:layout_marginEnd="4dp" android:minWidth="0dp" android:minHeight="0dp"
+            android:paddingStart="12dp" android:paddingEnd="12dp" android:tag="category/education/"
+            android:text="Education" android:textAllCaps="false" android:textSize="12sp"
+            android:textColor="#FFFFFF" android:backgroundTint="@color/peleza_red"/>
+        <Button android:layout_width="wrap_content" android:layout_height="48dp"
+            android:layout_marginEnd="4dp" android:minWidth="0dp" android:minHeight="0dp"
+            android:paddingStart="12dp" android:paddingEnd="12dp" android:tag="category/opportunities/"
+            android:text="Opportunities" android:textAllCaps="false" android:textSize="12sp"
+            android:textColor="#FFFFFF" android:backgroundTint="@color/peleza_red"/>
+        <Button android:layout_width="wrap_content" android:layout_height="48dp"
+            android:layout_marginEnd="4dp" android:minWidth="0dp" android:minHeight="0dp"
+            android:paddingStart="12dp" android:paddingEnd="12dp" android:tag="category/entertainment/"
+            android:text="Entertainment" android:textAllCaps="false" android:textSize="12sp"
+            android:textColor="#FFFFFF" android:backgroundTint="@color/peleza_red"/>
+        <Button android:layout_width="wrap_content" android:layout_height="48dp"
+            android:layout_marginEnd="4dp" android:minWidth="0dp" android:minHeight="0dp"
+            android:paddingStart="12dp" android:paddingEnd="12dp" android:tag="category/community/"
+            android:text="Community" android:textAllCaps="false" android:textSize="12sp"
+            android:textColor="#FFFFFF" android:backgroundTint="@color/peleza_red"/>
+        <Button android:layout_width="wrap_content" android:layout_height="48dp"
+            android:layout_marginEnd="4dp" android:minWidth="0dp" android:minHeight="0dp"
+            android:paddingStart="12dp" android:paddingEnd="12dp" android:tag="#search"
+            android:text="Search" android:textAllCaps="false" android:textSize="12sp"
+            android:textColor="#FFFFFF" android:backgroundTint="@color/peleza_red"/>
+        <Button android:layout_width="wrap_content" android:layout_height="48dp"
+            android:layout_marginEnd="4dp" android:minWidth="0dp" android:minHeight="0dp"
+            android:paddingStart="12dp" android:paddingEnd="12dp" android:tag="#refresh"
+            android:text="Refresh" android:textAllCaps="false" android:textSize="12sp"
+            android:textColor="#FFFFFF" android:backgroundTint="@color/peleza_red"/>
+      </LinearLayout>
+    </HorizontalScrollView>
+    <FrameLayout android:id="@+id/fullscreen_container" android:layout_width="match_parent"
+        android:layout_height="match_parent" android:background="@android:color/black"
+        android:visibility="gone"/>
 </FrameLayout>
