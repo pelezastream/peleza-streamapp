@@ -7,15 +7,15 @@ android {
     compileSdk 36
 
     defaultConfig {
-        applicationId 'com.pelezastream.app'
+        applicationId 'org.pelezaupdates.app'
         minSdk 24
         targetSdk 36
-        versionCode 110
-        versionName '1.1.0'
+        versionCode 1
+        versionName '1.0.0'
 
-        buildConfigField 'String', 'HOME_URL', '"https://www.pelezastream.com/"'
-        buildConfigField 'String', 'PRIMARY_HOST', '"www.pelezastream.com"'
-        buildConfigField 'String', 'APEX_HOST', '"pelezastream.com"'
+        buildConfigField 'String', 'HOME_URL', '"https://www.pelezaupdates.org/"'
+        buildConfigField 'String', 'PRIMARY_HOST', '"www.pelezaupdates.org"'
+        buildConfigField 'String', 'APEX_HOST', '"pelezaupdates.org"'
     }
 
     def keystorePath = System.getenv('ANDROID_KEYSTORE_PATH')
