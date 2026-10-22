@@ -1,104 +1,50 @@
-# Peleza Stream Android
+# PELEZA UPDATES — Android app
 
-Production-ready Android wrapper for **https://www.pelezastream.com/**.
+This branch (`peleza-updates-android-build`) contains the **PELEZA UPDATES** Android app. It is deliberately separate from the Peleza Stream code on the repository's default branch.
 
 ## App identity
 
-- App name: **Peleza Stream**
-- Application ID: `com.pelezastream.app`
-- Version: `1.1.0`
-- Version code: `110`
-- Minimum Android: API 24 / Android 7.0
-- Target/compile SDK: API 36 / Android 16
-- Java: 17
-- Android Gradle Plugin: 8.13.2
-- Gradle: 8.13
+- Application ID: `org.pelezaupdates.app`
+- App label: `PELEZA UPDATES`
+- Website: https://www.pelezaupdates.org/
+- Version name: `1.0.1`
+- Version code: `2`
+- Minimum API: 24; target/compile API: 36
+- Android Java source: `app/src/main/java/com/pelezastream/app/MainActivity.java` (the Java package is internal; the Play Store application ID is different)
 
-This repository establishes `com.pelezastream.app` as the production application ID. Do not change it after the first Google Play upload.
+**Do not upload Peleza Stream artifacts to the Peleza Updates Google Play listing.** Never change `org.pelezaupdates.app` for an update to the existing listing.
 
-## App features
+## Android bottom navigation (v1.0.1)
 
-- Uses a Peleza P/play adaptive launcher icon and a dedicated dark/red branded splash screen.\n- Loads Peleza Stream from the current `pelezastream.com` domain.
-- Keeps Peleza links inside the app.
-- Opens non-Peleza web links and custom schemes in their appropriate external app.
-- Handles fullscreen HTML5 video.
-- Supports website file-upload fields.
-- Supports downloads through Android Download Manager.
-- Retains cookies/session state.
-- Displays a matching Peleza-branded retry page for main-frame network failures, HTTP 408/429, and server 5xx errors.
-- Accepts Peleza web links through Android VIEW intents.
-- Cleartext traffic is disabled at the Android network-security layer.
+The previous horizontal row of wide orange text buttons has been replaced with a fixed icon navigation bar using the Peleza Updates navy and orange brand palette.
 
-## Repository verification
+Five main tabs: **Home, News, Jobs, Education, More**. The **More** bottom sheet keeps **Opportunities, Entertainment, Community, Search, and Refresh** available with icons. The selected tab is highlighted. The website and Peleza Stream app are unchanged.
 
-Run:
+## Building APK / AAB
 
-```bash
-python3 scripts/verify-project.py
-```
+The workflow is `.github/workflows/peleza-updates-ci.yml` and runs automatically on pushes to this branch. Navigate to GitHub **Actions → PELEZA UPDATES - APK and AAB** to find the latest run and download its artifact.
 
-The script verifies the package ID, current Peleza domain, Android version settings, required files, and XML syntax. It also fails if a legacy domain is reintroduced.
+Every run produces:
+- `PELEZA-UPDATES-v1.0.1-TEST.apk` — debug build, for direct local testing.
+- `PELEZA-UPDATES-v1.0.1-SIGNED.aab` **only when Peleza Updates signing secrets are set**, otherwise `PELEZA-UPDATES-v1.0.1-UNSIGNED.aab`.
+- `SHA256SUMS.txt`.
 
-## GitHub Actions
+**An unsigned AAB cannot be uploaded to Google Play.** To sign the AAB using the original, existing Peleza Updates upload key, configure these GitHub Actions repository secrets:
 
-### Android CI - Build APK and AAB
+- `PELEZA_UPDATES_KEYSTORE_BASE64` — Base64 of the **original** Peleza Updates upload keystore.
+- `PELEZA_UPDATES_KEYSTORE_PASSWORD`
+- `PELEZA_UPDATES_KEY_ALIAS`
+- `PELEZA_UPDATES_KEY_PASSWORD`
 
-`.github/workflows/android-ci.yml`
+Keep the keystore and credentials private and out of source control. Do not generate a replacement key for an existing Play listing unless using Google's approved upload-key reset process.
 
-Runs automatically for pushes/PRs to `main` or `master`, and can also be started manually. It:
+## Publishing the navigation update to internal testers
 
-1. Sets up JDK 17, Android SDK 36, and Gradle 8.13.
-2. Validates the repository structure.
-3. Runs Android lint.
-4. Builds a debug APK and unsigned release AAB.
-5. Uploads build artifacts plus SHA-256 checksums.
+1. Confirm the build has succeeded in GitHub Actions.
+2. Download the **signed** Peleza Updates v1.0.1 AAB.
+3. Open the `org.pelezaupdates.app` app in Google Play Console.
+4. Choose **Testing → Internal testing → Create new release**, upload the signed AAB (version code 2), and roll out the update.
+5. Open Google Play on an opted-in tester account and update the installed app.
+6. Verify category navigation and responsive labels on a small screen.
 
-### Google Play Release
-
-`.github/workflows/google-play-release.yml`
-
-Manual workflow for a signed Play Store release. Configure these GitHub repository secrets:
-
-- `ANDROID_KEYSTORE_BASE64`
-- `ANDROID_KEYSTORE_PASSWORD`
-- `ANDROID_KEY_ALIAS`
-- `ANDROID_KEY_PASSWORD`
-- `PLAY_SERVICE_ACCOUNT_JSON`
-
-Then open **Actions → Google Play Release → Run workflow** and select the track. Start with `internal`.
-
-> Google Play normally requires the app/package to exist in Play Console and the first AAB to be uploaded/accepted before API-based release automation can manage subsequent releases.
-
-## Create `ANDROID_KEYSTORE_BASE64`
-
-Keep the original `.jks` file private. Convert it to a GitHub Secret locally:
-
-Linux:
-
-```bash
-base64 -w 0 peleza-stream-upload.jks
-```
-
-macOS:
-
-```bash
-base64 < peleza-stream-upload.jks | tr -d '\n'
-```
-
-Never commit the keystore or credentials. `.gitignore` already excludes them.
-
-## First GitHub deployment
-
-1. Create an empty GitHub repository.
-2. Upload the **contents** of this folder to the repository root.
-3. Commit/push to `main`.
-4. Open **Actions → Android CI - Build APK and AAB**.
-5. When the workflow is green, download `Peleza-Stream-Android-v1.1.0` from Artifacts.
-6. Test the APK on a real Android device.
-7. Create the app in Google Play Console with application ID `com.pelezastream.app`.
-8. Configure app signing and the GitHub Secrets above.
-9. Use **Google Play Release** for subsequent signed releases.
-
-## Important deployment note
-
-The Android application depends on the availability and performance of `https://www.pelezastream.com/`. The app includes a retry screen for web/server failures, but it cannot make an unavailable WordPress backend available.
+The changes are in the source branch; **they do not change the already-installed Play Store build** until the new signed release is rolled out.
