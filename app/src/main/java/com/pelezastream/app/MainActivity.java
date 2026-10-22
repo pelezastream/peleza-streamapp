@@ -28,7 +28,13 @@ import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-import android.widget.HorizontalScrollView;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.widget.LinearLayout;
 import android.widget.EditText;
 import android.app.AlertDialog;
@@ -67,29 +73,160 @@ public class MainActivity extends Activity {
         }
     }
 
+    private final int[] navTabs = {
+            R.id.nav_home, R.id.nav_news, R.id.nav_jobs, R.id.nav_education, R.id.nav_more
+    };
+    private final int[] navIcons = {
+            R.id.nav_icon_home, R.id.nav_icon_news, R.id.nav_icon_jobs,
+            R.id.nav_icon_education, R.id.nav_icon_more
+    };
+    private final int[] navLabels = {
+            R.id.nav_label_home, R.id.nav_label_news, R.id.nav_label_jobs,
+            R.id.nav_label_education, R.id.nav_label_more
+    };
+
     private void configureBottomNavigation() {
-        HorizontalScrollView bar = findViewById(R.id.bottom_bar);
-        LinearLayout children = (LinearLayout) bar.getChildAt(0);
-        for (int k = 0; k < children.getChildCount(); k++) {
-            View button = children.getChildAt(k);
-            String destination = String.valueOf(button.getTag());
-            button.setOnClickListener(clicked -> {
-                if ("#refresh".equals(destination)) {
-                    webView.reload();
-                } else if ("#search".equals(destination)) {
-                    EditText field = new EditText(this);
-                    field.setSingleLine(true);
-                    field.setHint("Search PELEZA UPDATES");
-                    new AlertDialog.Builder(this).setTitle("Search Articles").setView(field)
-                        .setNegativeButton("Cancel", null)
-                        .setPositiveButton("Search", (dialog, which) -> {
-                            String term = field.getText().toString().trim();
-                            if (!term.isEmpty()) webView.loadUrl(BuildConfig.HOME_URL + "?s=" + Uri.encode(term));
-                        }).show();
-                } else {
-                    webView.loadUrl(BuildConfig.HOME_URL + destination);
-                }
-            });
+        findViewById(R.id.nav_home).setOnClickListener(v -> openSection("", 0));
+        findViewById(R.id.nav_news).setOnClickListener(v -> openSection("category/news/", 1));
+        findViewById(R.id.nav_jobs).setOnClickListener(v -> openSection("jobs/", 2));
+        findViewById(R.id.nav_education).setOnClickListener(v -> openSection("category/education/", 3));
+        findViewById(R.id.nav_more).setOnClickListener(v -> showMoreMenu());
+        selectTab(0);
+    }
+
+    private void openSection(String path, int activeTab) {
+        selectTab(activeTab);
+        webView.loadUrl(BuildConfig.HOME_URL + path);
+    }
+
+    private void selectTab(int selectedTab) {
+        int highlighted = getColor(R.color.peleza_red_bright);
+        int muted = getColor(R.color.peleza_muted);
+        for (int i = 0; i < navTabs.length; i++) {
+            LinearLayout tab = findViewById(navTabs[i]);
+            ImageView icon = findViewById(navIcons[i]);
+            TextView title = findViewById(navLabels[i]);
+            boolean selected = i == selectedTab;
+            if (selected) {
+                tab.setBackgroundResource(R.drawable.nav_tab_selected);
+            } else {
+                tab.setBackgroundColor(Color.TRANSPARENT);
+            }
+            icon.setColorFilter(selected ? highlighted : muted);
+            title.setTextColor(selected ? highlighted : muted);
+            title.setTypeface(null, selected ? Typeface.BOLD : Typeface.NORMAL);
+            tab.setSelected(selected);
+        }
+    }
+
+    private int dp(float value) {
+        return Math.round(value * getResources().getDisplayMetrics().density);
+    }
+
+    private void showMoreMenu() {
+        Dialog sheet = new Dialog(this);
+        LinearLayout menu = new LinearLayout(this);
+        menu.setOrientation(LinearLayout.VERTICAL);
+        menu.setPadding(dp(20), dp(17), dp(20), dp(22));
+        menu.setBackgroundResource(R.drawable.nav_sheet_background);
+
+        TextView heading = new TextView(this);
+        heading.setText("Explore Peleza Updates");
+        heading.setTextSize(18);
+        heading.setTypeface(null, Typeface.BOLD);
+        heading.setTextColor(getColor(R.color.peleza_black));
+        heading.setPadding(dp(10), 0, dp(10), dp(12));
+        menu.addView(heading, new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        addMoreOption(menu, sheet, "Opportunities", R.drawable.ic_nav_opportunities,
+                () -> openSection("category/opportunities/", 4));
+        addMoreOption(menu, sheet, "Entertainment", R.drawable.ic_nav_entertainment,
+                () -> openSection("category/entertainment/", 4));
+        addMoreOption(menu, sheet, "Community", R.drawable.ic_nav_community,
+                () -> openSection("category/community/", 4));
+        addMoreOption(menu, sheet, "Search", R.drawable.ic_nav_search, this::showSearchDialog);
+        addMoreOption(menu, sheet, "Refresh", R.drawable.ic_nav_refresh, () -> webView.reload());
+
+        sheet.setContentView(menu);
+        sheet.show();
+        Window window = sheet.getWindow();
+        if (window != null) {
+            window.setBackgroundDrawableResource(android.R.color.transparent);
+            window.setGravity(Gravity.BOTTOM);
+            window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+        }
+    }
+
+    private void addMoreOption(LinearLayout menu, Dialog sheet, String title, int drawable, Runnable action) {
+        LinearLayout row = new LinearLayout(this);
+        row.setOrientation(LinearLayout.HORIZONTAL);
+        row.setGravity(Gravity.CENTER_VERTICAL);
+        row.setPadding(dp(14), 0, dp(14), 0);
+        row.setClickable(true);
+        row.setFocusable(true);
+        row.setContentDescription(title);
+        TypedValue background = new TypedValue();
+        if (getTheme().resolveAttribute(android.R.attr.selectableItemBackground, background, true)) {
+            row.setBackgroundResource(background.resourceId);
+        }
+
+        ImageView symbol = new ImageView(this);
+        symbol.setImageResource(drawable);
+        symbol.setColorFilter(getColor(R.color.peleza_red));
+        symbol.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+        row.addView(symbol, new LinearLayout.LayoutParams(dp(24), dp(24)));
+
+        TextView label = new TextView(this);
+        label.setText(title);
+        label.setTextSize(15);
+        label.setTextColor(getColor(R.color.peleza_black));
+        label.setPadding(dp(20), 0, 0, 0);
+        label.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+        row.addView(label, new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+        row.setOnClickListener(v -> {
+            sheet.dismiss();
+            action.run();
+        });
+        menu.addView(row, new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, dp(54)));
+    }
+
+    private void showSearchDialog() {
+        EditText field = new EditText(this);
+        field.setSingleLine(true);
+        field.setHint("Search PELEZA UPDATES");
+        new AlertDialog.Builder(this).setTitle("Search Articles").setView(field)
+                .setNegativeButton("Cancel", null)
+                .setPositiveButton("Search", (dialog, which) -> {
+                    String term = field.getText().toString().trim();
+                    if (!term.isEmpty()) {
+                        selectTab(4);
+                        webView.loadUrl(BuildConfig.HOME_URL + "?s=" + Uri.encode(term));
+                    }
+                }).show();
+    }
+
+    private void updateSelectedTabForUrl(String url) {
+        if (url == null) return;
+        Uri uri = Uri.parse(url);
+        if (!isInternalHttpUrl(uri)) return;
+        String path = uri.getPath() == null ? "/" : uri.getPath().toLowerCase(Locale.ROOT);
+        if (path.equals("/")) {
+            selectTab(uri.getQueryParameter("s") == null ? 0 : 4);
+        } else if (path.startsWith("/category/news") || path.startsWith("/news/")) {
+            selectTab(1);
+        } else if (path.startsWith("/jobs/") || path.startsWith("/category/jobs")) {
+            selectTab(2);
+        } else if (path.startsWith("/category/education")) {
+            selectTab(3);
+        } else if (path.startsWith("/category/opportunities")
+                || path.startsWith("/category/entertainment")
+                || path.startsWith("/category/community")) {
+            selectTab(4);
         }
     }
 
@@ -331,6 +468,7 @@ public class MainActivity extends Activity {
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
             progressBar.setVisibility(View.GONE);
+            updateSelectedTabForUrl(url);
         }
 
         @Override
